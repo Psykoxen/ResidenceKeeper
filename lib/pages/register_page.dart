@@ -43,7 +43,7 @@ class RegisterPage extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    color: d_blue,
+                    color: d_main,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -154,7 +154,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: d_blue,
+                  backgroundColor: d_main,
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.all(13),
                 ),

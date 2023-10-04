@@ -6,6 +6,7 @@ import 'package:residencekeeper/animations/delayed_animation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:residencekeeper/main.dart';
 import 'package:residencekeeper/pages/login_page.dart';
+import 'package:residencekeeper/pages/main_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
@@ -43,7 +44,7 @@ class LoginPage extends StatelessWidget {
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    color: d_blue,
+                    color: d_main,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -110,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formKey.currentState!.validate()) {
                     // Vérifiez si le compte existe (voir ci-dessous
                     _formKey.currentState!.save();
-                    checkAccountExistence(_email, _password);
+                    checkAccountExistence(context, _email, _password);
                     // Ici, vous pouvez traiter la connexion avec les valeurs de _email et _password
                     // Par exemple, authentifiez-vous auprès de votre API backend
                     // Si la connexion est réussie, vous pouvez naviguer vers la page suivante
@@ -118,7 +119,7 @@ class _LoginFormState extends State<LoginForm> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: d_blue,
+                  backgroundColor: d_main,
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.all(13),
                 ),
@@ -130,7 +131,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-Future<void> checkAccountExistence(String email, String keypass) async {
+Future<void> checkAccountExistence(
+    BuildContext context, String email, String keypass) async {
   final response = await http.post(
     Uri.parse('http://192.168.0.128:8080/api/user/login'),
     headers: <String, String>{
@@ -144,10 +146,8 @@ Future<void> checkAccountExistence(String email, String keypass) async {
 
   if (response.statusCode == 200) {
     log("Logged");
-    // La requête a réussi, analysez la réponse ici.
-    // Vous pouvez utiliser la bibliothèque dart:convert pour décoder la réponse JSON si elle est renvoyée par l'API.
-    // Par exemple : var data = json.decode(response.body);
-    // Ensuite, vous pouvez vérifier si le compte existe dans les données renvoyées par l'API.
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   } else {
     log("Not logged");
     // La requête a échoué. Gérez les erreurs ici.

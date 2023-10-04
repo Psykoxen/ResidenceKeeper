@@ -45,7 +45,7 @@ class LoggerPage extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: d_blue,
+                      color: d_main,
                     )),
               ]),
             ),
@@ -57,7 +57,7 @@ class LoggerPage extends StatelessWidget {
                 child: Column(children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: d_blue,
+                        backgroundColor: d_main,
                         shape: StadiumBorder(),
                         padding: EdgeInsets.all(13),
                       ),
@@ -87,10 +87,10 @@ class LoggerPage extends StatelessWidget {
                                 builder: (context) => LoginPage()));
                       },
                       child: Row(children: [
-                        Icon(Icons.login, color: d_blue),
+                        Icon(Icons.login, color: d_main),
                         SizedBox(width: 10),
                         Text('Welcome back',
-                            style: GoogleFonts.poppins(color: d_blue)),
+                            style: GoogleFonts.poppins(color: d_main)),
                       ])),
                 ]),
               )),

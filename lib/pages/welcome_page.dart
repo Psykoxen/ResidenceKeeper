@@ -26,7 +26,7 @@ class WelcomePage extends StatelessWidget {
                 style: GoogleFonts.raleway(
                   fontSize: 27,
                   fontWeight: FontWeight.bold,
-                  color: d_blue,
+                  color: d_main,
                 ),
               ),
             ),
@@ -43,7 +43,7 @@ class WelcomePage extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: d_blue,
+                    backgroundColor: d_main,
                     shape: StadiumBorder(),
                     padding: EdgeInsets.all(13),
                   ),
