@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:residencekeeper/models/payment_model.dart';
+import 'package:residencekeeper/models/residence_model.dart';
 
 class ResidenceDetailedPage extends StatefulWidget {
   final int id;
-  ResidenceDetailedPage({super.key, required this.id});
+  ResidenceDetailedPage({Key? key, required this.id}) : super(key: key);
 
   @override
   _ResidenceDetailedPageState createState() => _ResidenceDetailedPageState();
 }
 
 class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
-  late Future<List<PaymentModel>> payments;
+  late Future<ResidenceModel> residence;
 
   @override
   void initState() {
     super.initState();
-    payments = PaymentModel.getPayments(widget.id);
+    print(widget.id);
+    residence = ResidenceModel.getResidenceDetails(widget.id);
   }
 
   @override
@@ -35,30 +38,88 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
           },
         ),
       ),
-      body: FutureBuilder<List<PaymentModel>>(
-        future: payments,
+      body: FutureBuilder<ResidenceModel>(
+        future: residence,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text('Erreur: ${snapshot.error}');
+            return Center(child: Text('Erreur: ${snapshot.error}'));
           } else {
             // Afficher les données récupérées ici
-            final paymentList = snapshot.data;
-            if (paymentList != null && paymentList.isNotEmpty) {
-              return ListView.builder(
-                itemCount: paymentList.length,
-                itemBuilder: (context, index) {
-                  final payment = paymentList[index];
-                  return ListTile(
-                    title: Text(payment.name),
-                    subtitle: Text(payment.date),
-                    trailing: Text('\$${payment.amount.toStringAsFixed(2)}'),
-                  );
-                },
+            final residenceData = snapshot.data;
+            if (residenceData != null) {
+              final paymentList = residenceData.payments;
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text("Your Balance",
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        )),
+                    SizedBox(height: 20),
+                    Text(
+                      residenceData.balance.balance < 0
+                          ? '-\$${(-residenceData.balance.balance).toStringAsFixed(2)}'
+                          : '\$${residenceData.balance.balance.toStringAsFixed(2)}',
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 40,
+                        color: residenceData.balance.balance < 0
+                            ? Colors.red
+                            : Colors.green,
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: paymentList.length,
+                      itemBuilder: (context, index) {
+                        final payment = paymentList[index];
+                        return Card(
+                          elevation: 5.0,
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: ListTile(
+                            title: Text(payment.name,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                )),
+                            subtitle: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Text(payment.categoryId.toString()),
+                                  Text(payment.date,
+                                      style: GoogleFonts.poppins()),
+                                ],
+                              ),
+                            ),
+                            trailing: Text(
+                              payment.isExpense
+                                  ? '-\$${payment.amount.toStringAsFixed(2)}'
+                                  : '+\$${payment.amount.toStringAsFixed(2)}',
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: payment.isExpense
+                                    ? Colors.red
+                                    : Colors.green,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               );
             } else {
-              return Text('Aucun paiement trouvé.');
+              return Center(child: Text('Aucun paiement trouvé.'));
             }
           }
         },
