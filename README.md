@@ -2,9 +2,14 @@
 
 <div align="center">
   <img src="readme/residencekeeper.png" height=300>
-  
-  ## Your Ally for Harmonious Living
-  
+  </br>
+
+![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
+
+## Your Ally for Harmonious Living
+
 </div>
 
 Residence Keeper is much more than just a roommate management app. It's your partner for harmonious and hassle-free cohabitation, whether you share an apartment with friends, roommates, or family members. Residence Keeper simplifies the management of your finances, household tasks, budget tracking, and communication within your home.
