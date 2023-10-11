@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:residencekeeper/models/payment_model.dart';
 import 'package:residencekeeper/models/residence_model.dart';
+import 'package:residencekeeper/pages/settings_residence_page.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ResidenceDetailedPage extends StatefulWidget {
   final int id;
@@ -9,6 +11,12 @@ class ResidenceDetailedPage extends StatefulWidget {
 
   @override
   _ResidenceDetailedPageState createState() => _ResidenceDetailedPageState();
+}
+
+class ChartData {
+  ChartData(this.x, this.y);
+  final String x;
+  final double y;
 }
 
 class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
@@ -37,6 +45,23 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
             Navigator.pop(context);
           },
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.more_vert, // Icône de trois points
+              color: Colors.black,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<ResidenceModel>(
         future: residence,
@@ -59,19 +84,48 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
                           fontWeight: FontWeight.w500,
                         )),
                     SizedBox(height: 20),
+                    for (var user in residenceData.balance.users)
+                      if (user.userId == 1)
+                        Text(
+                          user.balance < 0
+                              ? '-\$${(-user.balance).toStringAsFixed(2)}'
+                              : '\$${user.balance.toStringAsFixed(2)}',
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 40,
+                            color: residenceData.balance.balance < 0
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                        ),
+
                     Text(
                       residenceData.balance.balance < 0
                           ? '-\$${(-residenceData.balance.balance).toStringAsFixed(2)}'
                           : '\$${residenceData.balance.balance.toStringAsFixed(2)}',
                       style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 40,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
                         color: residenceData.balance.balance < 0
                             ? Colors.red
                             : Colors.green,
                       ),
                     ),
                     SizedBox(height: 40),
+                    // SfCircularChart(series: <CircularSeries>[
+                    //   // Render pie chart
+                    //   RadialBarSeries<ChartData, String>(
+                    //       dataSource: [
+                    //         // Bind data source
+                    //         ChartData('Jan', 35),
+                    //         ChartData('Feb', 28),
+                    //         ChartData('Mar', 34),
+                    //         ChartData('Apr', 32),
+                    //         ChartData('May', 40)
+                    //       ],
+                    //       xValueMapper: (ChartData data, _) => data.x,
+                    //       yValueMapper: (ChartData data, _) => data.y)
+                    // ]),
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: paymentList.length,

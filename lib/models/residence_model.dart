@@ -26,6 +26,7 @@ class ResidenceModel {
         'homeId': id,
       }),
     );
+
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 
