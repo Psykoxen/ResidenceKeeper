@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:residencekeeper/animations/delayed_animation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:residencekeeper/main.dart';
-import 'package:residencekeeper/pages/login_page.dart';
 import 'package:residencekeeper/pages/main_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:residencekeeper/main.dart';
-import 'package:residencekeeper/models/payment_model.dart';
 import 'package:residencekeeper/models/residence_model.dart';
-import 'package:residencekeeper/pages/settings_residence_page.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:residencekeeper/pages/adding_expense_page.dart';
+import 'package:residencekeeper/pages/settings_residence_page%20copy.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ResidenceDetailedPage extends StatefulWidget {
   final int id;
@@ -190,7 +190,7 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddingExepnse(residence: residence),
+                  builder: (context) => AddingExpensePage(residence: residence),
                 ),
               );
             },
