@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:residencekeeper/main.dart';
 import 'package:residencekeeper/models/payment_model.dart';
 import 'package:residencekeeper/models/residence_model.dart';
 import 'package:residencekeeper/pages/settings_residence_page.dart';
@@ -178,6 +179,24 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
           }
         },
       ),
+      floatingActionButton: Container(
+          margin: EdgeInsets.only(bottom: 16.0),
+          decoration: BoxDecoration(
+            color: d_main, // Couleur de fond du bouton flottant
+            shape: BoxShape.circle, // Forme du bouton
+          ),
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddingExepnse(residence: residence),
+                ),
+              );
+            },
+            child: Icon(Icons.add),
+            backgroundColor: d_main, // Icône du bouton flottant
+          )),
     );
   }
 }
