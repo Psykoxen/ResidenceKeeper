@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:residencekeeper/main.dart';
 import 'package:residencekeeper/models/category_model.dart';
+import 'package:residencekeeper/models/payment_model.dart';
 import 'package:residencekeeper/models/residence_model.dart';
 import 'package:residencekeeper/pages/settings_residence_page%20copy.dart';
 // import 'package:syncfusion_flutter_charts/charts.dart';
@@ -231,9 +232,11 @@ class AddingExpenseForm extends StatefulWidget {
 class _AddingExpenseFormState extends State<AddingExpenseForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _name = '';
-  String _amount =
-      ''; // Change "_email" en "_amount" pour refléter le champ d'entrée de montant.
-  String selectedCategory = '';
+  String _amount = '';
+  String _date = '';
+  int selectedCategory = 0;
+  bool isExpense = true;
+  List<String> expenseType = ['Expense', 'Income'];
 
   // Utilisez FutureBuilder pour obtenir la liste des catégories.
   Future<List<CategoryModel>> categories = CategoryModel.getCategories();
@@ -245,6 +248,19 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
       print('Name: $_name');
       print('Amount: $_amount');
       print('Selected Category: $selectedCategory');
+      PaymentModel payment = new PaymentModel(
+        userId: 1,
+        homeId: 1,
+        amount: double.parse(_amount),
+        date: _date,
+        name: _name,
+        categoryId: selectedCategory,
+        isExpense: isExpense,
+      );
+      payment.newPayment();
+      setState(() {
+        Navigator.pop(context);
+      });
     }
   }
 
@@ -298,6 +314,7 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
               ],
             ),
             TextFormField(
+              style: GoogleFonts.poppins(),
               decoration: InputDecoration(
                 hintText: 'Amount',
                 hintStyle: GoogleFonts.poppins(
@@ -328,6 +345,7 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
               },
             ),
             TextFormField(
+              style: GoogleFonts.poppins(),
               decoration: InputDecoration(
                 hintText: 'Date',
                 hintStyle: GoogleFonts.poppins(
@@ -336,12 +354,64 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
                 ),
               ),
               validator: (value) {
-                // Validez la date si nécessaire.
+                if (value!.isEmpty) {
+                  return 'Please enter a date';
+                }
                 return null;
               },
               onSaved: (value) {
-                // Sauvegardez la date si nécessaire.
+                _date = value!;
               },
+            ),
+            SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Type of transaction",
+                style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: expenseType.map((String expense) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (expense == "Expense")
+                        isExpense = true;
+                      else
+                        isExpense = false;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: (isExpense && expense == "Expense") ||
+                              (!isExpense && expense == "Income")
+                          ? d_main
+                          : Color(0xffe8ebf0),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Text(
+                      expense,
+                      style: GoogleFonts.poppins(
+                        color: (isExpense && expense == "Expense") ||
+                                (!isExpense && expense == "Income")
+                            ? Colors.white
+                            : null,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
             SizedBox(height: 20),
             Align(
@@ -373,13 +443,13 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            selectedCategory = category.name;
+                            selectedCategory = category.id;
                           });
                         },
                         child: Container(
                           padding: EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            color: category.name == selectedCategory
+                            color: category.id == selectedCategory
                                 ? d_main
                                 : Color(0xffe8ebf0),
                             borderRadius: BorderRadius.circular(8.0),
@@ -387,7 +457,7 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
                           child: Text(
                             category.name,
                             style: GoogleFonts.poppins(
-                              color: category.name == selectedCategory
+                              color: category.id == selectedCategory
                                   ? Colors.white
                                   : null,
                               fontSize: 12.0,

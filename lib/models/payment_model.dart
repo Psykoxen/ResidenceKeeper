@@ -23,24 +23,25 @@ class PaymentModel {
     required this.isExpense,
   });
 
-  static void newPayment(PaymentModel payment) async {
+  void newPayment() async {
     final response = await http.post(
       Uri.parse('http://localhost:8080/api/payment/create'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'user_id': payment.userId,
-        'home_id': payment.homeId,
-        'amount': payment.amount,
-        'date': payment.date,
-        'name': payment.name,
-        'category_id': payment.categoryId,
-        'expense': payment.isExpense,
+        'user_id': userId,
+        'home_id': homeId,
+        'amount': amount,
+        'date': date,
+        'name': name,
+        'category_id': categoryId,
+        'expense': isExpense.toString(),
       }),
     );
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
+      print('Added');
     } else {
       // Gérer les erreurs de la requête ici
       throw Exception('Erreur lors de la requête API');
