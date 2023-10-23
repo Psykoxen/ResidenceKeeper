@@ -47,7 +47,13 @@ class WelcomePage extends StatelessWidget {
                     shape: StadiumBorder(),
                     padding: EdgeInsets.all(13),
                   ),
-                  child: Text('Get Started'),
+                  child: Text(
+                    'Get Started',
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoggerPage()));

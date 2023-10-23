@@ -32,7 +32,7 @@ class RegisterPage extends StatelessWidget {
               delay: 200,
               child: Column(children: [
                 Container(
-                  child: SvgPicture.asset('assets/images/user.svg'),
+                  child: SvgPicture.asset('assets/images/city.svg'),
                   height: 200,
                 ),
                 const SizedBox(height: 30),
@@ -74,7 +74,9 @@ class _RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           // Champ de saisie pour le nom d'utilisateur
           TextFormField(
-            decoration: const InputDecoration(labelText: 'Username'),
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+                labelText: 'Username', labelStyle: GoogleFonts.poppins()),
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Veuillez saisir votre nom d\'utilisateur';
@@ -87,7 +89,9 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           // Champ de saisie pour l'adresse e-mail
           TextFormField(
-            decoration: const InputDecoration(labelText: 'E-mail'),
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+                labelText: 'E-mail', labelStyle: GoogleFonts.poppins()),
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Veuillez saisir votre adresse e-mail';
@@ -100,7 +104,8 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           // Champ de saisie pour le mot de passe
           TextFormField(
-            decoration: const InputDecoration(
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
               labelText: 'Password',
               // Couleur de l'étiquette en sélection
             ),
@@ -119,10 +124,12 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           // Champ de saisie pour la confirmation du mot de passe
           TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Password confirmation',
-              // Couleur de l'étiquette en sélection
-            ),
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+                labelText: 'Password confirmation',
+                labelStyle: GoogleFonts.poppins()
+                // Couleur de l'étiquette en sélection
+                ),
             obscureText: true, // Masquer le texte du mot de passe
             validator: (value) {
               if (value!.isEmpty) {
@@ -157,7 +164,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.all(13),
                 ),
-                child: const Text('Register'),
+                child: Text('Register', style: GoogleFonts.poppins()),
               )),
         ],
       ),

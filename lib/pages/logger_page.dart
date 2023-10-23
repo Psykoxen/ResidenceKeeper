@@ -71,7 +71,9 @@ class LoggerPage extends StatelessWidget {
                         Icon(Icons.person_add_alt),
                         SizedBox(width: 10),
                         Text('Join the team',
-                            style: GoogleFonts.poppins(color: Colors.white)),
+                            style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500)),
                       ])),
                   SizedBox(height: 20),
                   ElevatedButton(
@@ -90,7 +92,8 @@ class LoggerPage extends StatelessWidget {
                         Icon(Icons.login, color: d_main),
                         SizedBox(width: 10),
                         Text('Welcome back',
-                            style: GoogleFonts.poppins(color: d_main)),
+                            style: GoogleFonts.poppins(
+                                color: d_main, fontWeight: FontWeight.w500)),
                       ])),
                 ]),
               )),

@@ -73,7 +73,11 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           // Champ de saisie pour l'adresse e-mail
           TextFormField(
-            decoration: const InputDecoration(labelText: 'E-mail'),
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+              labelText: 'E-mail',
+              labelStyle: GoogleFonts.poppins(),
+            ),
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please enter your e-mail address';
@@ -86,7 +90,9 @@ class _LoginFormState extends State<LoginForm> {
           ),
           // Champ de saisie pour le mot de passe
           TextFormField(
-            decoration: const InputDecoration(
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+              labelStyle: GoogleFonts.poppins(),
               labelText: 'Password',
               // Couleur de l'étiquette en sélection
             ),
@@ -122,7 +128,7 @@ class _LoginFormState extends State<LoginForm> {
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.all(13),
                 ),
-                child: const Text('Login'),
+                child: Text('Login', style: GoogleFonts.poppins()),
               )),
         ],
       ),

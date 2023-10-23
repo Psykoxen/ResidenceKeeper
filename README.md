@@ -50,6 +50,11 @@ The Residence Keeper API provides the backbone for seamless data synchronization
   <img src="readme/login.png" height=300>
   <img src="readme/register.png" height=300>
 </div>
+</br>
+<div style="display:flex; justify-content:center; align-items:center; ">
+  <img src="readme/balance.png" height=300>
+  <img src="readme/add.png" height=300>
+</div>
 </div>
 
 ## Author
