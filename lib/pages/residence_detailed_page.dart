@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:residencekeeper/components/payment_component.dart';
 import 'package:residencekeeper/main.dart';
 import 'package:residencekeeper/models/category_model.dart';
 import 'package:residencekeeper/models/payment_model.dart';
@@ -27,7 +29,6 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.id);
     residence = ResidenceModel.getResidenceDetails(widget.id);
   }
 
@@ -133,42 +134,7 @@ class _ResidenceDetailedPageState extends State<ResidenceDetailedPage> {
                       itemCount: paymentList.length,
                       itemBuilder: (context, index) {
                         final payment = paymentList[index];
-                        return Card(
-                          elevation: 5.0,
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: ListTile(
-                            title: Text(payment.name,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                )),
-                            subtitle: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Text(payment.categoryId.toString()),
-                                  Text(payment.date,
-                                      style: GoogleFonts.poppins()),
-                                ],
-                              ),
-                            ),
-                            trailing: Text(
-                              payment.isExpense
-                                  ? '-\$${payment.amount.toStringAsFixed(2)}'
-                                  : '+\$${payment.amount.toStringAsFixed(2)}',
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                color: payment.isExpense
-                                    ? Colors.red
-                                    : Colors.green,
-                              ),
-                            ),
-                          ),
-                        );
+                        return Payment(payment: payment);
                       },
                     ),
                   ],
@@ -237,6 +203,14 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
   int selectedCategory = 0;
   bool isExpense = true;
   List<String> expenseType = ['Expense', 'Income'];
+  double _sliderValue = 50.0;
+  bool isAdvancedOpen = false;
+
+  void toggleAdvanced() {
+    setState(() {
+      isAdvancedOpen = !isAdvancedOpen;
+    });
+  }
 
   // Utilisez FutureBuilder pour obtenir la liste des catégories.
   Future<List<CategoryModel>> categories = CategoryModel.getCategories();
@@ -245,9 +219,6 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Traitement et soumission des données du formulaire
-      print('Name: $_name');
-      print('Amount: $_amount');
-      print('Selected Category: $selectedCategory');
       PaymentModel payment = new PaymentModel(
         userId: 1,
         homeId: 1,
@@ -470,6 +441,42 @@ class _AddingExpenseFormState extends State<AddingExpenseForm> {
                   );
                 }
               },
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: toggleAdvanced,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                    child: Text("More Options",
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: d_main)),
+                  ),
+                  if (isAdvancedOpen)
+                    Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            // Slider(
+                            //   value: _sliderValue,
+                            //   min: 0,
+                            //   max: 100,
+                            //   onChanged: (double value) {
+                            //     setState(() {
+                            //       _sliderValue = value;
+                            //     });
+                            //   },
+                            // ),
+                          ],
+                        )),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
