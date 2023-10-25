@@ -47,4 +47,41 @@ class PaymentModel {
       throw Exception('Erreur lors de la requête API');
     }
   }
+
+  static Future<List<PaymentModel>> getActivities(
+      String email, String password) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:8080/api/payment/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+
+      // Convertir les données JSON en une liste d'objets HomeModel
+      List<PaymentModel> payments = data.map((item) {
+        return PaymentModel(
+          id: item['id'],
+          userId: item['user_id'],
+          homeId: item['home_id'],
+          amount: item['amount'].toDouble(),
+          date: item['date'],
+          name: item['name'],
+          categoryId: item['category_id'],
+          isExpense: item['expense'] == "true",
+        );
+      }).toList();
+
+      return payments;
+    } else {
+      // Gérer les erreurs de la requête ici
+      throw Exception('Erreur lors de la requête API');
+    }
+  }
 }
